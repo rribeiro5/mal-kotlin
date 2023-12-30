@@ -2,6 +2,16 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.detekt)
+}
+
+dependencies {
+    detektPlugins(libs.detekt.formatting)
+}
+
+detekt {
+    source.setFrom("src")
+    baseline = file("$rootDir/config/detekt/baseline.xml")
 }
 
 kotlin {

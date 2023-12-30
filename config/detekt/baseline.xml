@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>UnusedPrivateProperty:MALContainer.kt$MALContainer$@OptIn(ExperimentalSerializationApi::class) private val httpClient: HttpClient = HttpClient(engine) { expectSuccess = true defaultRequest { url(BASE_URL) header(key = API_KEY_HEADER, value = apiKey) } install(ContentNegotiation) { json( Json { ignoreUnknownKeys = true explicitNulls = false } ) } install(HttpTimeout) { requestTimeoutMillis = timeoutMillis } }</ID>
+  </CurrentIssues>
+</SmellBaseline>
