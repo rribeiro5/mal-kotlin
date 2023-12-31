@@ -7,18 +7,25 @@ import kotlinx.serialization.Serializable
 enum class BroadcastDay {
     @SerialName("monday")
     MONDAY,
+
     @SerialName("tuesday")
     TUESDAY,
+
     @SerialName("wednesday")
     WEDNESDAY,
+
     @SerialName("thursday")
     THURSDAY,
+
     @SerialName("friday")
     FRIDAY,
+
     @SerialName("saturday")
     SATURDAY,
+
     @SerialName("sunday")
     SUNDAY,
+
     @SerialName("other")
     OTHER
 }

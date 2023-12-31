@@ -7,10 +7,13 @@ import kotlinx.serialization.Serializable
 enum class Season {
     @SerialName("winter")
     WINTER,
+
     @SerialName("spring")
     SPRING,
+
     @SerialName("summer")
     SUMMER,
+
     @SerialName("fall")
     FALL
 }

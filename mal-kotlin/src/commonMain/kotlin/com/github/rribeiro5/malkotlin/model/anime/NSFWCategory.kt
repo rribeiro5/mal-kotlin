@@ -7,8 +7,10 @@ import kotlinx.serialization.Serializable
 enum class NSFWCategory {
     @SerialName("white")
     WHITE,
+
     @SerialName("gray")
     GRAY,
+
     @SerialName("black")
     BLACK
 }
