@@ -7,7 +7,7 @@ private const val OFFSET_PARAMETER = "offset"
 
 private const val FIELDS_PARAMETER = "fields"
 
-internal fun <T> URLBuilder.queryParameterIfNotNull(
+internal fun <T> URLBuilder.appendQueryParameter(
     name: String,
     value: T?
 ) {
@@ -18,10 +18,10 @@ internal fun URLBuilder.pagingParameters(
     limit: Int?,
     offset: Int?
 ) {
-    queryParameterIfNotNull(LIMIT_PARAMETER, limit)
-    queryParameterIfNotNull(OFFSET_PARAMETER, offset)
+    appendQueryParameter(LIMIT_PARAMETER, limit)
+    appendQueryParameter(OFFSET_PARAMETER, offset)
 }
 
 internal fun URLBuilder.fieldsParameter(fields: String?) {
-    queryParameterIfNotNull(FIELDS_PARAMETER, fields)
+    appendQueryParameter(FIELDS_PARAMETER, fields)
 }

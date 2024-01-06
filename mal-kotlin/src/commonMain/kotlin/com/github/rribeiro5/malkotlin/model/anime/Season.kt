@@ -4,16 +4,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class Season {
+enum class Season(val value: String) {
     @SerialName("winter")
-    WINTER,
+    WINTER("winter"),
 
     @SerialName("spring")
-    SPRING,
+    SPRING("spring"),
 
     @SerialName("summer")
-    SUMMER,
+    SUMMER("summer"),
 
     @SerialName("fall")
-    FALL
+    FALL("fall")
 }
