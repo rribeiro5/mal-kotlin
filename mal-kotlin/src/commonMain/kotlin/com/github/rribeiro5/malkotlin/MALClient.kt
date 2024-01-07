@@ -26,9 +26,9 @@ class MALClient internal constructor(container: MALContainer) {
 
     suspend fun getAnimeList(
         query: String?,
-        limit: Int?,
-        offset: Int?,
-        fields: String?
+        limit: Int? = null,
+        offset: Int? = null,
+        fields: String? = null
     ): Result<PaginatedList<AnimeListNode>> = animeService.getAnimeList(
         query = query,
         limit = limit,
@@ -45,7 +45,7 @@ class MALClient internal constructor(container: MALContainer) {
     )
 
     suspend fun getAnimeRanking(
-        rankingType: AnimeRankingType,
+        rankingType: AnimeRankingType = AnimeRankingType.ALL,
         limit: Int? = null,
         offset: Int? = null,
         fields: String? = null
