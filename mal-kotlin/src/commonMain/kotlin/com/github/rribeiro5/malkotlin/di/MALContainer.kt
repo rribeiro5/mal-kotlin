@@ -1,6 +1,9 @@
 package com.github.rribeiro5.malkotlin.di
 
+import com.github.rribeiro5.malkotlin.api.AnimeAPI
 import com.github.rribeiro5.malkotlin.api.httpClientEngine
+import com.github.rribeiro5.malkotlin.service.AnimeService
+import com.github.rribeiro5.malkotlin.service.ktor.KtorAnimeService
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
@@ -39,4 +42,8 @@ internal class MALContainer(
             requestTimeoutMillis = timeoutMillis
         }
     }
+
+    private val animeAPI: AnimeAPI = AnimeAPI(httpClient = httpClient)
+
+    val animeService: AnimeService = KtorAnimeService(animeAPI = animeAPI)
 }
