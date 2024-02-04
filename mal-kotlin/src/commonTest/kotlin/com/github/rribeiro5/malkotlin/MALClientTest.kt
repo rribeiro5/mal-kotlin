@@ -17,6 +17,9 @@ import com.github.rribeiro5.malkotlin.model.anime.getSeasonalAnimeSuccessRequest
 import com.github.rribeiro5.malkotlin.model.anime.getSuggestedAnimeMockObject
 import com.github.rribeiro5.malkotlin.model.anime.getSuggestedAnimeServerErrorRequestMock
 import com.github.rribeiro5.malkotlin.model.anime.getSuggestedAnimeSuccessRequestMock
+import com.github.rribeiro5.malkotlin.model.auth.authTokenErrorRequestMock
+import com.github.rribeiro5.malkotlin.model.auth.authTokenMockObject
+import com.github.rribeiro5.malkotlin.model.auth.authTokenSuccessRequestMock
 import com.github.rribeiro5.malkotlin.model.core.ErrorType
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
@@ -126,6 +129,52 @@ class MALClientTest {
         val client = createClient(getSuggestedAnimeServerErrorRequestMock)
 
         val result = client.getSuggestedAnime()
+
+        assertTrue(result.isFailure)
+        assertEquals(ErrorType.SERVER_ERROR, (result.exceptionOrNull() as MALRequestException).errorType)
+    }
+
+    @Test
+    fun testAuthorizeSuccess() = runBlocking {
+        val client = createClient(authTokenSuccessRequestMock)
+
+        val result = client.authorize(
+            authorizationCode = "123456789",
+            codeVerifier = "abcdefghij"
+        )
+
+        assertTrue(result.isSuccess)
+        assertEquals(authTokenMockObject, result.getOrNull())
+    }
+
+    @Test
+    fun testAuthorizeServerError() = runBlocking {
+        val client = createClient(authTokenErrorRequestMock)
+
+        val result = client.authorize(
+            authorizationCode = "invalid_code",
+            codeVerifier = "000"
+        )
+
+        assertTrue(result.isFailure)
+        assertEquals(ErrorType.SERVER_ERROR, (result.exceptionOrNull() as MALRequestException).errorType)
+    }
+
+    @Test
+    fun testRefreshTokensSuccess() = runBlocking {
+        val client = createClient(authTokenSuccessRequestMock)
+
+        val result = client.refreshTokens(refreshToken = "oij12oi3j1jom12i3j1oj1o2j31")
+
+        assertTrue(result.isSuccess)
+        assertEquals(authTokenMockObject, result.getOrNull())
+    }
+
+    @Test
+    fun testRefreshTokensServerError() = runBlocking {
+        val client = createClient(authTokenErrorRequestMock)
+
+        val result = client.refreshTokens(refreshToken = "invalid_token")
 
         assertTrue(result.isFailure)
         assertEquals(ErrorType.SERVER_ERROR, (result.exceptionOrNull() as MALRequestException).errorType)
