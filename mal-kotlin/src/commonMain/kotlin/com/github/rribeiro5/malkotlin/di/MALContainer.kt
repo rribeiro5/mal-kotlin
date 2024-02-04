@@ -1,9 +1,12 @@
 package com.github.rribeiro5.malkotlin.di
 
 import com.github.rribeiro5.malkotlin.api.AnimeAPI
+import com.github.rribeiro5.malkotlin.api.AuthAPI
 import com.github.rribeiro5.malkotlin.api.httpClientEngine
 import com.github.rribeiro5.malkotlin.service.AnimeService
+import com.github.rribeiro5.malkotlin.service.AuthService
 import com.github.rribeiro5.malkotlin.service.ktor.KtorAnimeService
+import com.github.rribeiro5.malkotlin.service.ktor.KtorAuthService
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
@@ -18,7 +21,8 @@ private const val BASE_URL = "https://api.myanimelist.net/"
 private const val API_KEY_HEADER = "X-MAL-CLIENT-ID"
 
 internal class MALContainer(
-    apiKey: String,
+    val clientId: String,
+    val clientSecret: String? = null,
     timeoutMillis: Long?,
     engine: HttpClientEngine = httpClientEngine()
 ) {
@@ -28,7 +32,7 @@ internal class MALContainer(
         expectSuccess = true
         defaultRequest {
             url(BASE_URL)
-            header(key = API_KEY_HEADER, value = apiKey)
+            header(key = API_KEY_HEADER, value = clientId)
         }
         install(ContentNegotiation) {
             json(
@@ -45,5 +49,9 @@ internal class MALContainer(
 
     private val animeAPI: AnimeAPI = AnimeAPI(httpClient = httpClient)
 
+    private val authAPI: AuthAPI = AuthAPI(httpClient = httpClient)
+
     val animeService: AnimeService = KtorAnimeService(animeAPI = animeAPI)
+
+    val authService: AuthService = KtorAuthService(authAPI = authAPI)
 }

@@ -22,7 +22,7 @@ internal suspend fun <R> runKtorRequestCatching(block: suspend () -> R): Result<
             HttpStatusCode.NotFound -> ErrorType.NOT_FOUND
             else -> ErrorType.UNKNOWN
         }
-        Result.failure(MALRequestException(message, errorType, error))
+        Result.failure(MALRequestException(message.orEmpty(), errorType, error))
     } catch (e: ServerResponseException) {
         Result.failure(MALRequestException(e.message, ErrorType.SERVER_ERROR, null))
     } catch (e: RedirectResponseException) {

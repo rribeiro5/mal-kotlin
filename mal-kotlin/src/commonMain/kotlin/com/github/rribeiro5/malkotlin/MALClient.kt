@@ -7,19 +7,25 @@ import com.github.rribeiro5.malkotlin.model.anime.AnimeRankingNode
 import com.github.rribeiro5.malkotlin.model.anime.AnimeRankingType
 import com.github.rribeiro5.malkotlin.model.anime.Season
 import com.github.rribeiro5.malkotlin.model.anime.SortParameter
+import com.github.rribeiro5.malkotlin.model.auth.AuthTokens
 import com.github.rribeiro5.malkotlin.model.core.PaginatedList
 import com.github.rribeiro5.malkotlin.service.AnimeService
+import com.github.rribeiro5.malkotlin.service.AuthService
 
-class MALClient internal constructor(container: MALContainer) {
+class MALClient internal constructor(private val container: MALContainer) {
 
     private val animeService: AnimeService = container.animeService
 
+    private val authService: AuthService = container.authService
+
     constructor(
-        apiKey: String,
+        clientId: String,
+        clientSecret: String? = null,
         timeoutMillis: Long? = null
     ) : this(
         container = MALContainer(
-            apiKey = apiKey,
+            clientId = clientId,
+            clientSecret = clientSecret,
             timeoutMillis = timeoutMillis
         )
     )
@@ -81,4 +87,23 @@ class MALClient internal constructor(container: MALContainer) {
         offset = offset,
         fields = fields
     )
+
+    suspend fun authorize(
+        authorizationCode: String,
+        codeVerifier: String,
+        redirectUri: String? = null
+    ): Result<AuthTokens> = authService.authorize(
+        clientId = container.clientId,
+        authorizationCode = authorizationCode,
+        codeVerifier = codeVerifier,
+        clientSecret = container.clientSecret,
+        redirectUri = redirectUri
+    )
+
+    suspend fun refreshTokens(refreshToken: String): Result<AuthTokens> =
+        authService.refreshTokens(
+            clientId = container.clientId,
+            refreshToken = refreshToken,
+            clientSecret = container.clientSecret
+        )
 }

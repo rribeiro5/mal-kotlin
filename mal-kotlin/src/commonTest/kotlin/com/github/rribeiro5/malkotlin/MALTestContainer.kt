@@ -13,7 +13,7 @@ internal fun testContainer(
     apiKey: String = "123456789",
     timeoutMillis: Long? = null
 ): MALContainer = MALContainer(
-    apiKey = apiKey,
+    clientId = apiKey,
     timeoutMillis = timeoutMillis,
     engine = MockEngine(requestHandler)
 )
